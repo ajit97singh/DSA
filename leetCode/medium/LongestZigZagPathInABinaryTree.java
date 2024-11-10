@@ -19,53 +19,28 @@ public class LongestZigZagPathInABinaryTree {
     * Return the longest ZigZag path contained in that tree.
     */
 
+    static int pathLength = 0;
     public static int longestZigZag(TreeNode root) {
-
-        // maintain a stack of zig and zag
-        // maintain an int max Size of stack
-        // do a dfs
-        // return int
-
-        Stack<Character> stack = new Stack<>();
-        AtomicInteger max = new AtomicInteger(0);
-        dfs(root, stack, max);
-        return max.get();
+        dfs(root, false, 0);
+        dfs(root, true, 0);
+        return pathLength;
     }
 
-    private static void dfs(TreeNode root, Stack<Character> stack, AtomicInteger max) {
-        // left is zig
-        // right is zag
-        max.set(Math.max(max.get(), stack.size()));
-        if (root == null) {
-            stack.pop();
+    private static void dfs(TreeNode node, boolean goLeft, int steps) {
+        if (node == null) {
             return;
         }
-        char c = stack.empty() ? '0' : stack.peek();
-        // if node has left
-        if (Objects.nonNull(root.getLeft())) {
-            if (c == 'l'|| c =='0') {
-                dfs(root.getLeft(), new Stack<>(), max);
-            } else {
-                stack.push('l');
-                dfs(root.getLeft(), stack, max);
-            }
-        }
-
-        // if node has right
-        if (Objects.nonNull(root.getRight())) {
-            if (c == 'l'|| c =='0' ) {
-                stack.push('r');
-                dfs(root.getRight(), stack, max);
-            } else {
-                dfs(root.getRight(), new Stack<>(), max);
-            }
+        pathLength = Math.max(pathLength, steps);
+        if (goLeft) {
+            dfs(node.getLeft(), false, steps + 1);
+            dfs(node.getRight(), true, 1);
+        } else {
+            dfs(node.getLeft(), false, 1);
+            dfs(node.getRight(), true, steps + 1);
         }
     }
 
     public static void main(String[] args) {
-        // [1,null,1,1,1,null,null,1,1,null,1,null,null,null,1]
-        // [1,1,1,null,1,null,null,1,1,null,1]
-        // [1]
         TreeNode root = new TreeNode(1,
                 null, new TreeNode(1,
                 new TreeNode(1), new TreeNode(1,
