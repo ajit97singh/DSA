@@ -1,5 +1,6 @@
 package src.src.leetCode.easy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MergeTwoSortedArrays {
@@ -27,6 +28,8 @@ public class MergeTwoSortedArrays {
         int n = 2;
         merge(nums1, m, nums2, n);
         System.out.println(Arrays.toString(nums1));
+        ArrayList<Integer> s = new ArrayList<>();
+        System.out.println(s);
     }
 
 }

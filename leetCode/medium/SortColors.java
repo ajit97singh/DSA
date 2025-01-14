@@ -50,10 +50,29 @@ public class SortColors {
         }
     }
 
+    public static void solution(int[] nums) {
+        int left = 0, right = nums.length - 1, mid = 0;
+
+        while (left <= right) {
+            if (nums[mid] == 0){
+                swap(nums, left++, mid++);
+            } else if (nums[mid] == 2) {
+                swap(nums, mid, right--);
+            }else if (nums[mid] == 1) {
+                mid++;
+            }
+        }
+    }
+    private static void swap(int[] arr, int i, int j) {
+        int iElement = arr[i];
+        arr[i] = arr[j];
+        arr[j] = iElement;
+    }
+
 
     public static void main(String[] args) {
         int [] input = new int[]{2,0,2,1,1,0};
-        sortColors(input);
+        solution(input);
         System.out.println(Arrays.toString(input));
     }
 }
