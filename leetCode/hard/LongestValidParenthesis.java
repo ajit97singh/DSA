@@ -1,53 +1,38 @@
 package src.src.leetCode.hard;
 
+
+import java.util.Stack;
+
 public class LongestValidParenthesis {
     public static int longestValidParentheses(String s) {
-        // do a sliding window keeping count of open and closed parenthesis
-        if (s == null || s.length() <= 1){
-            return 0;
-        }
+        Stack<Character> characterStack = new Stack<>();
+        Stack<Integer> indexStack = new Stack<>();
 
-        int left = 0;
-        while(s.charAt(left) == ')'){
-            left++;
-        }
+        for (int i = 0; i < s.length(); i++) {
 
-        int right = left;
-        int openCount = 0;
-        int closeCount = 0;
+            char character = s.charAt(i);
+            if (!characterStack.isEmpty() && (character == ')' && characterStack.peek() == '(')) {
+                characterStack.pop();
+                indexStack.pop();
+            } else {
+                characterStack.add(character);
+                indexStack.add(i);
+            }
+        }
+        int later = s.length() - 1;
         int maxLength = 0;
-
-
-        while (right < s.length()){
-            if (s.charAt(right) == ')') {
-                closeCount++;
-            }else if(s.charAt(right) == '('){
-                openCount++;
-            }
-
-            if (openCount == closeCount){
-                maxLength = Math.max(maxLength, right - left + 1);
-            }else if (openCount < closeCount){
-                while (left<=right){
-                    if (s.charAt(left) == '('){
-                        openCount--;
-                    }else {
-                        closeCount--;
-                    }
-                    left++;
-                    if (openCount == closeCount){
-                        break;
-                    }
-                }
-            }
-            right++;
+        while (!indexStack.isEmpty()) {
+            int prev = indexStack.pop();
+            int len = later - prev;
+            maxLength = Math.max(maxLength, len);
+            later = prev;
         }
-
+        maxLength = Math.max(maxLength, later);
         return maxLength;
     }
 
     public static void main(String[] args) {
-        String input = "(()()";
+        String input = "()(()";
         int res = longestValidParentheses(input);
         System.out.println(res);
     }

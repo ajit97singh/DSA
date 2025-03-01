@@ -40,7 +40,7 @@ class TowersOfHanoi {
     }
 
     public static void main(String [] args) throws Exception {
-        int n =3;
+        int n = 3;
         TowersOfHanoi[] towers = new TowersOfHanoi[n];
         for(int i = 0; i<n; i++) {
             towers[i] = new TowersOfHanoi(i);
